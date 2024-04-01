@@ -51,10 +51,10 @@ void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
 }
 // Function to push solenoid based on the timing?
 // function to callibrate location
-void calibrate(int motorSpeed, int motorDirec, int switch1) {
+void calibrate(int motorSpeed, int motorDirec, int switch3) {
   analogWrite(motorSpeed, 250);
   digitalWrite(motorDirec, 1);
-  while (digitalRead(switch1)) {
+  while (digitalRead(switch3)) {
   }
   analogWrite(motorSpeed, 0);
 }
