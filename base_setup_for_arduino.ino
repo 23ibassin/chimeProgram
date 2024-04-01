@@ -15,6 +15,9 @@ int startTime;
 int currentTime;
 int m1i /*motor 1 list iteration point*/ = 0;
 int m2i /*motor 2 list iteration point*/=0;
+int power;
+double din1sec = 3;
+double dPerSec;
 
 
 // List of timing in song each note should play (controls solenoid)
@@ -64,7 +67,11 @@ int notes2[25/*lengthArray2*/] = {F6, D6, D6, F6, D6, D6, F6, F6, E6, E6,
 /*4th*/ F6,/*1/4rest*/ F6, F6, F6, F6};
 // Function to move solenoids based on a distance (controls motors)
 void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
-  int power;
+  timeB = timeB - 50;
+  dPerSec = abs(distance)/(timeB*0.001);
+  power = (250*dPerSec/din1sec);
+  analogWrite(motorspeed, power);
+  digitalWrite(motordirec, distance < 0);
 }
 // Function to push solenoid based on the timing?
 // function to callibrate location
@@ -108,6 +115,9 @@ void loop() {
     }
     m1i++;
     moveByDistance((timeB1[m1i]- timeB1[m1i-1]), (notes1[m1i]-notes1[m1i-1]), motor1s, motor1d);
+    if (currentTime>= timeB1[m1i]-35){
+      analogWrite(motor1s, 0);
+    }
   }
   //motor 2
     if (timeB1[m2i] <= (currentTime - startTime)) {
