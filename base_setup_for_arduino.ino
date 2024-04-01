@@ -115,10 +115,11 @@ void loop() {
     }
     m1i++;
     moveByDistance((timeB1[m1i]- timeB1[m1i-1]), (notes1[m1i]-notes1[m1i-1]), motor1s, motor1d);
-    if (currentTime>= timeB1[m1i]-35){
+    
+  }
+  if (currentTime>= timeB1[m1i]-35){
       analogWrite(motor1s, 0);
     }
-  }
   //motor 2
     if (timeB1[m2i] <= (currentTime - startTime)) {
     if (notes2[m2i] == E6 || notes2[m2i] == Bb6 /*notes with sollenoid 1*/) {
@@ -131,5 +132,8 @@ void loop() {
     m2i++;
     moveByDistance((timeB1[m2i]- timeB2[m2i-1]), (notes2[m2i]-notes2[m2i-1]), motor2s, motor2d);
   }
+  if (currentTime>= timeB1[m1i]-35){
+      analogWrite(motor2s, 0);
+    }
   // Check for solenoid moving off path when driven by motor
 }
