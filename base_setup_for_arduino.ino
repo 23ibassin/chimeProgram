@@ -13,11 +13,12 @@ const int lengthArray1 = 2;
 const int lengthArray2 = 2;
 int startTime;
 int currentTime;
-int m1i /*motor 1 list iteration point*/=0;
+int m1i /*motor 1 list iteration point*/ = 0;
 int m2i /*motor 2 list iteration point*/=0;
 
 
 // List of timing in song each note should play (controls solenoid)
+int note8thP1 = 300;
 int timeB1[lengthArray1] = {
   0,300
 };
@@ -42,9 +43,17 @@ double Bb6;
 double Cs7;
 
 // List of notes on motor 1 (preferably space from switch) (controls motors 1)
-int notes1[lengthArray1] = {F6, D6};
+// G6,Cs6, An5, An6, C6
+int notes1[29/*lengthArray1*/] = {An5, An5, C6, An5, C6, C6, An5, C6, Cs6, An5, C6, C6, An5, C6, 
+/*second line*/Cs6, An5, C6, C6, An6, /*slow part and third line*/ An6, G6, An6, C6, 
+/*4th*/ G6, An6, G6,/*1/4rest*/ An6, An6, G6};
+
 // List of notes on motor 2(preferably space from switch) (controls motors 2)
-int notes2[lengthArray2] = {F6, D6};
+//D6, Cs7, F6, Bb6, E6
+
+int notes2[25/*lengthArray2*/] = {F6, D6, D6, F6, D6, D6, F6, F6, E6, E6, 
+/*second line*/E6, E6, /*slow part*/D6, E6, F6, /*third line*/D6, E6, F6, E6, 
+/*4th*/ F6,/*1/4rest*/ F6, F6, F6, F6};
 // Function to move solenoids based on a distance (controls motors)
 void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
   int power;
