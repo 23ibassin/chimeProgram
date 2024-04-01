@@ -9,8 +9,8 @@ const int sollenoid2 = 7;
 const int sollenoid3 = 8;
 const int sollenoid4 = 9;
 
-const int lengthArray1 = 2;
-const int lengthArray2 = 2;
+const int lengthArray1 = 14;
+const int lengthArray2 = 10;
 int startTime;
 int currentTime;
 int m1i /*motor 1 list iteration point*/ = 0;
@@ -19,11 +19,19 @@ int m2i /*motor 2 list iteration point*/=0;
 
 // List of timing in song each note should play (controls solenoid)
 int note8thP1 = 300;
+// G6,Cs6, An5, An6, C6
 int timeB1[lengthArray1] = {
-  0,300
+  600, 1800, 2700, 3000, 3300, 3900, 4200, 4500, /*Cs6*/5100, 5400, 5700, 6300, 6600, 6900 
+  /*2nd*/
 };
+
+/*{An5, An5, C6, An5, C6, C6, An5, C6, Cs6, An5, C6, C6, An5, C6, 
+second line/Cs6, An5, C6, C6, An6, /slow part and third line/ An6, G6, An6, C6, 
+/4th/ G6, An6, G6,/*1/4rest/ An6, An6, G6};*/
+//D6, Cs7, F6, Bb6, E6
 int timeB2[lengthArray2] = {
-  0,300
+  0, 300, 900, 1200, 1500, 2100, 2400, 3600, 4800, 6000, 
+  /*2nd*/
 };
 
 //list of time each not is played
