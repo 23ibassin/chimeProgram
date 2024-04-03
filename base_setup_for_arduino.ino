@@ -9,32 +9,35 @@ const int sollenoid2 = 7;
 const int sollenoid3 = 8;
 const int sollenoid4 = 9;
 
-const int lengthArray1 = 14;
-const int lengthArray2 = 10;
+const int lengthArray1 = 29;
+const int lengthArray2 = 25;
 int startTime;
 int currentTime;
 int m1i /*motor 1 list iteration point*/ = 0;
 int m2i /*motor 2 list iteration point*/=0;
 int power;
-double din1sec = 3;
-double dPerSec;
+double din1secm1 = 5; //distance in a second for motor 1 in meters
+double din1secm2 = 3;
+double dPerSec; //used later for calculating the distance per second
 
 
 // List of timing in song each note should play (controls solenoid)
 int note8thP1 = 300;
 // G6,Cs6, An5, An6, C6
-int timeB1[lengthArray1] = {
-  600, 1800, 2700, 3000, 3300, 3900, 4200, 4500, /*Cs6*/5100, 5400, 5700, 6300, 6600, 6900 
-  /*2nd*/
+int timeB1[lengthArray1+1] = {
+  600, 1800, 2700, 3000, 3300, 3900, 4200, 4500, /*Cs6*/5100, 5400, 5700, 6300, 6600, 6900, 
+  /*2nd*/ 7500, 7800, 8100, 8700, 9000, /*slow part and 3rd*/ 11100, 11381, 11475, 11663, 11850, 
+  /*4th*/ 14100, 14475, 14850, 16350, 16538, 16725
 };
 
 /*{An5, An5, C6, An5, C6, C6, An5, C6, Cs6, An5, C6, C6, An5, C6, 
 second line/Cs6, An5, C6, C6, An6, /slow part and third line/ An6, G6, An6, C6, 
 /4th/ G6, An6, G6,/*1/4rest/ An6, An6, G6};*/
 //D6, Cs7, F6, Bb6, E6
-int timeB2[lengthArray2] = {
+int timeB2[lengthArray2+1] = {
   0, 300, 900, 1200, 1500, 2100, 2400, 3600, 4800, 6000, 
-  /*2nd*/
+  /*2nd*/7200, 8400, /*slow part*/ 9600, 10163, 10350, /*3rd*/ 12600, 13163, 13350, 13725,
+  /*4th*/ 15225, 15788, 15975, 16163, 16913
 };
 
 //list of time each not is played
@@ -55,21 +58,26 @@ double Cs7;
 
 // List of notes on motor 1 (preferably space from switch) (controls motors 1)
 // G6,Cs6, An5, An6, C6
-int notes1[29/*lengthArray1*/] = {An5, An5, C6, An5, C6, C6, An5, C6, Cs6, An5, C6, C6, An5, C6, 
+int notes1[lengthArray1] = {An5, An5, C6, An5, C6, C6, An5, C6, Cs6, An5, C6, C6, An5, C6, 
 /*second line*/Cs6, An5, C6, C6, An6, /*slow part and third line*/ An6, G6, An6, C6, 
 /*4th*/ G6, An6, G6,/*1/4rest*/ An6, An6, G6};
 
 // List of notes on motor 2(preferably space from switch) (controls motors 2)
 //D6, Cs7, F6, Bb6, E6
 
-int notes2[25/*lengthArray2*/] = {F6, D6, D6, F6, D6, D6, F6, F6, E6, E6, 
+int notes2[lengthArray2] = {F6, D6, D6, F6, D6, D6, F6, F6, E6, E6, 
 /*second line*/E6, E6, /*slow part*/D6, E6, F6, /*third line*/D6, E6, F6, E6, 
 /*4th*/ F6,/*1/4rest*/ F6, F6, F6, F6};
 // Function to move solenoids based on a distance (controls motors)
 void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
   timeB = timeB - 50;
   dPerSec = abs(distance)/(timeB*0.001);
-  power = (250*dPerSec/din1sec);
+  if (motorspeed == motor1s){
+  power = (250*dPerSec/din1secm1);
+  }else{
+    power = (250*dPerSec/din1secm2);
+  }
+
   analogWrite(motorspeed, power);
   digitalWrite(motordirec, distance < 0);
 }
