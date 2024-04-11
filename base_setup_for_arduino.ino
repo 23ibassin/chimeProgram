@@ -4,8 +4,8 @@ const int motor1s = 10;
 const int motor1d = 12;
 const int motor2s = 11;
 const int motor2d = 13;
-const int sollenoid1 = 6;
-const int sollenoid2 = 7;
+const int sollenoid2 = 6;
+const int sollenoid1 = 7;
 const int sollenoid3 = 8;
 const int sollenoid4 = 9;
 
@@ -137,21 +137,26 @@ void loop() {
           digitalWrite(sollenoid1, 1);
           delay(50);
           digitalWrite(sollenoid1, 0);
+          delay(50);
         } else {
           digitalWrite(sollenoid2, 1);
           delay(50);
           digitalWrite(sollenoid2, 0);
+          delay(50);
         }
+        firstTime1 = false;
       }
+      
       //going to the next sollenoid
       if (m1i == (lengthArray1 - 1)) {
         analogWrite(motor1s, 0);
       } else if (currentTime >= timeB1[m1i + 1] - 35) {
         analogWrite(motor1s, 0);
         m1i++;
-        firstTime2 = false;
+        firstTime1=true;
         Serial.println(m1i);
       } else {
+        Serial.print("hi");
         moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
       }
     }
@@ -164,17 +169,17 @@ void loop() {
           digitalWrite(sollenoid3, 0);
         } else {
           digitalWrite(sollenoid4, 1);
-          //delay(50);
+          delay(50);
           digitalWrite(sollenoid4, 0);
+          delay(50);
         }
-        Serial.println(digitalRead(sollenoid2));
+        firstTime2 = false;
       }
-
       if (m2i == (lengthArray2 - 1)) {
         analogWrite(motor2s, 0);
       } else if (currentTime >= timeB2[m2i + 1] - 35) {
         analogWrite(motor2s, 0);
-        firstTime2 = false;
+        firstTime2=true;
         m2i++;
       } else {
         moveByDistance((timeB2[m2i] - timeB2[m2i - 1]), (notes2[m2i] - notes2[m2i - 1]), motor2s, motor2d);
