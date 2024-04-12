@@ -19,8 +19,8 @@ bool firstTime2 = true;
 unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 int power;
-double din1secm1 = 68;  //distance in a second for motor 1 in meters
-double din1secm2 = 68;
+double din1secm1 = 65;  //distance in a second for motor 1 in meters
+double din1secm2 = 65;
 double dPerSec;  //used later for calculating the distance per second
 
 
@@ -151,7 +151,7 @@ void loop() {
       //going to the next sollenoid
       if (m1i == (lengthArray1 - 1)) {
         analogWrite(motor1s, 0);
-      } else if ((currentTime - startTime) >= timeB1[m1i + 1] - 35) {
+      } else if ((currentTime - startTime) >= timeB1[m1i + 1] - 50) {
         analogWrite(motor1s, 0);
         firstTime1 = true;
         m1i++;
@@ -177,7 +177,7 @@ void loop() {
       }
       if (m2i == (lengthArray2 - 1)) {
         analogWrite(motor2s, 0);
-      } else if ((currentTime - startTime) >= timeB2[m2i + 1] - 35) {
+      } else if ((currentTime - startTime) >= timeB2[m2i + 1] - 50) {
         analogWrite(motor2s, 0);
         firstTime2 = true;
         m2i++;
