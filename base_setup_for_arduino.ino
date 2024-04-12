@@ -9,7 +9,7 @@ const int sollenoid1 = 7;
 const int sollenoid3 = 8;
 const int sollenoid4 = 9;
 
-const int lengthArray1 = 29;
+const int lengthArray1 = 35;
 const int lengthArray2 = 25;
 unsigned int startTime;
 unsigned int currentTime;
@@ -19,8 +19,8 @@ bool firstTime2 = true;
 unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 int power;
-double din1secm1 = 65;  //distance in a second for motor 1 in meters
-double din1secm2 = 65;
+double din1secm1 = 68;  //distance in a second for motor 1 in meters
+double din1secm2 = 68;
 double dPerSec;  //used later for calculating the distance per second
 
 
@@ -144,19 +144,19 @@ void loop() {
           digitalWrite(sollenoid2, 0);
           delay(50);
         }
-        firstTime1 = false;
+        Serial.print("note: ");
+        Serial.println(notes1[m1i]);
+          firstTime1 = false;
       }
-      
       //going to the next sollenoid
       if (m1i == (lengthArray1 - 1)) {
         analogWrite(motor1s, 0);
-      } else if (currentTime >= timeB1[m1i + 1] - 35) {
+      } else if ((currentTime - startTime) >= timeB1[m1i + 1] - 35) {
         analogWrite(motor1s, 0);
+        firstTime1 = true;
         m1i++;
-        firstTime1=true;
-        Serial.println(m1i);
+        //Serial.println(m1i);
       } else {
-        Serial.print("hi");
         moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
       }
     }
@@ -165,7 +165,7 @@ void loop() {
       if (firstTime2) {
         if (notes2[m2i] == E6 || notes2[m2i] == Bb6 /*notes with sollenoid 1*/) {
           digitalWrite(sollenoid3, 1);
-          delay(1000);
+          delay(50);
           digitalWrite(sollenoid3, 0);
         } else {
           digitalWrite(sollenoid4, 1);
@@ -177,12 +177,12 @@ void loop() {
       }
       if (m2i == (lengthArray2 - 1)) {
         analogWrite(motor2s, 0);
-      } else if (currentTime >= timeB2[m2i + 1] - 35) {
+      } else if ((currentTime - startTime) >= timeB2[m2i + 1] - 35) {
         analogWrite(motor2s, 0);
-        firstTime2=true;
+        firstTime2 = true;
         m2i++;
       } else {
-        moveByDistance((timeB2[m2i] - timeB2[m2i - 1]), (notes2[m2i] - notes2[m2i - 1]), motor2s, motor2d);
+        moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i + 1] - notes2[m2i]), motor2s, motor2d);
       }
     }
     // Check for solenoid moving off path when driven by motor
