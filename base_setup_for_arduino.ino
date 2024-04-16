@@ -29,6 +29,7 @@ int previousState2 = true;
 int currentState2 = true;
 bool calibrate1 = true;
 bool calibrate2 = true;
+bool firstTime2 = true;
 
 // List of timing in song each note should play (controls solenoid)
 int note8thP1 = 300;
@@ -96,14 +97,14 @@ void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
 }
 // Function to push solenoid based on the timing?
 // function to callibrate location
-void calibrate(int motorSpeed, int motorDirec, int switch3, int CS /*current state*/, int PS /*previous state*/, int swit) {
+void calibrate(int motorSpeed, int motorDirec, int switch3, int CS /*current state*/, int PS /*previous state*/, int swit, bool calib) {
   
   analogWrite(motorSpeed, 250);
   digitalWrite(motorDirec, 1);
-  analogWrite(motorSpeed, 0);
   Serial.println("calibratin1");
       if ((digigitalRead(swit)||CS) != PS){
-        calibrate1 = false; 
+        analogWrite(motorSpeed, 0);
+        calib = false; 
       }
 
 }
@@ -141,7 +142,8 @@ void loop() {
       calibrate(motor1s, motor1d, switch1, currentState1, previousState1, switch1);
       
     }
-  } else if (firstTime1 && firstTime2){
+  } else if (firstTime2){
+    firstTime2 = false;
     //move both motors to start position 
     //start clock
   }
