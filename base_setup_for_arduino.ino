@@ -29,7 +29,7 @@ int previousState2 = true;
 int currentState2 = true;
 bool calibrate1 = true;
 bool calibrate2 = true;
-bool firstTime2 = true;
+bool firstTimex2 = true;
 
 // List of timing in song each note should play (controls solenoid)
 int note8thP1 = 300;
@@ -97,16 +97,16 @@ void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
 }
 // Function to push solenoid based on the timing?
 // function to callibrate location
-void calibrate(int motorSpeed, int motorDirec, int switch3, int CS /*current state*/, int PS /*previous state*/, int swit, bool calib) {
-  
+void calibrate(int motorSpeed, int motorDirec, int switch3, int CS /*current state*/, int PS /*previous state*/, bool calib) {
+
   analogWrite(motorSpeed, 250);
   digitalWrite(motorDirec, 1);
   Serial.println("calibratin1");
-      if ((digigitalRead(swit)||CS) != PS){
-        analogWrite(motorSpeed, 0);
-        calib = false; 
-      }
-
+  if ((digitalRead(switch3) || CS) != PS) {
+    analogWrite(motorSpeed, 0);
+    calib = false;
+  }
+  PS = CS;
 }
 // ran when switch is = 0
 
@@ -126,28 +126,35 @@ void loop() {
   currentState1 = digitalRead(switch1);
   currentState2 = digitalRead(switch2);
   if (firstTime) {
-    /*calibrate(motor1s, motor1d, switch1, currentState1, previousState1, switch1);
-    calibrate(motor2s, motor2d, switch2);
+    calibrate(motor1s, motor1d, switch1, currentState1, previousState1, calibrate1);
+    calibrate(motor2s, motor2d, switch2, currentState2, previousState2, calibrate2);
     Serial.println("calibrating");
-  
-    if (!(currentState1 || currentState2)){
+
+    if (!(currentState1 || currentState2)) {
       startTime = millis();
-      firstTime=false;
+      firstTime = false;
       Serial.println("stop");
-    }*/
+    }
     firstTime = false;
     digitalWrite(motor1d, 1);
-  } else if (calibrate1||calibrate2){
-    if(calibrate1){
-      calibrate(motor1s, motor1d, switch1, currentState1, previousState1, switch1);
-      
+  } else if (calibrate1 || calibrate2) {
+    if (calibrate1) {
+      calibrate(motor1s, motor1d, switch1, currentState1, previousState1, calibrate1);
     }
-  } else if (firstTime2){
-    firstTime2 = false;
-    //move both motors to start position 
+    if (calibrate2) {
+      calibrate(motor2s, motor2d, switch2, currentState2, previousState2, calibrate2);
+    }
+  } else if (firstTimex2) {
+    moveByDistance(1000, notes1[0], motor1s, motor1d);
+    moveByDistance(1000, 1, notes2[0], motor2d);
+    delay(997);
+    analogWrite(motor1s, 0);
+    analogWrite(motor2s, 0);
+    firstTimex2 = false;
+
+    //move both motors to start position
     //start clock
-  }
-  else {
+  } else {
     currentTime = millis();
     //Serial.println(m1i);
     // put your main code here, to run repeatedly:
@@ -169,7 +176,7 @@ void loop() {
         }
         Serial.print("note: ");
         Serial.println(notes1[m1i]);
-          firstTime1 = false;
+        firstTime1 = false;
       }
       //going to the next sollenoid
       if (m1i == (lengthArray1 - 1)) {
