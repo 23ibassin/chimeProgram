@@ -149,7 +149,7 @@ void loop() {
     moveByDistance(1000, 1, notes2[0], motor2d);
     delay(997);
     digitalWrite(motor1d, !digitalRead(motor1d));
-    digitalWrite(motor2d, !digitalRead(motor2d))
+    digitalWrite(motor2d, !digitalRead(motor2d));
     analogWrite(motor1s, 0);
     analogWrite(motor2s, 0);
     firstTimex2 = false;
