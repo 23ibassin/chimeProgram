@@ -1,0 +1,14 @@
+const int motor2s = 11;
+const int motor2d = 13;
+void setup() {
+  // put your setup code here, to run once:
+  for (int i = 6; i <= 13; i++) { pinMode(i, OUTPUT); }
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  analogWrite(motor2s, 250);
+  delay(1000);
+  analogWrite(motor2s, 0);
+}
