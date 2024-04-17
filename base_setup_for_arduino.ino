@@ -4,10 +4,10 @@ const int motor1s = 10;
 const int motor1d = 12;
 const int motor2s = 11;
 const int motor2d = 13;
-const int sollenoid2 = 6;
-const int sollenoid1 = 7;
-const int sollenoid3 = 8;
-const int sollenoid4 = 9;
+const int sollenoid3 = 6;
+const int sollenoid4 = 7;
+const int sollenoid1 = 8;
+const int sollenoid2 = 9;
 
 
 const int lengthArray1 = 35;
@@ -21,7 +21,7 @@ unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 int power;
 double din1secm1 = 65;  //distance in a second for motor 1 in meters
-double din1secm2 = 65;
+double din1secm2 = 15;
 double dPerSec;  //used later for calculating the distance per second
 int previousState1 = true;
 int currentState1 = true;
@@ -99,9 +99,9 @@ void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
 // function to callibrate location
 void calibrate(int motorSpeed, int motorDirec, int switch3, int CS /*current state*/, int PS /*previous state*/, bool calib) {
 
-  analogWrite(motorSpeed, 250);
+  analogWrite(motorSpeed, 100);
   digitalWrite(motorDirec, 1);
-  Serial.println("calibratin1");
+  delay(5);
   if ((digitalRead(switch3) || CS) != PS) {
     analogWrite(motorSpeed, 0);
     calib = false;
@@ -126,24 +126,25 @@ void loop() {
   currentState1 = digitalRead(switch1);
   currentState2 = digitalRead(switch2);
   if (firstTime) {
-    calibrate(motor1s, motor1d, switch1, currentState1, previousState1, calibrate1);
+    /*calibrate(motor1s, motor1d, switch1, currentState1, previousState1, calibrate1);
     calibrate(motor2s, motor2d, switch2, currentState2, previousState2, calibrate2);
     Serial.println("calibrating");
 
-    if (!(currentState1 || currentState2)) {
+    if ((currentState1 != previousState1|| currentState2 != previousState2)) {
       startTime = millis();
       firstTime = false;
-      Serial.println("stop");
-    }
+      Serial.println("firstTime");
+    }*/
     firstTime = false;
     digitalWrite(motor1d, 1);
-  } else if (calibrate1 || calibrate2) {
+  /*} else if (calibrate1 || calibrate2) {
     if (calibrate1) {
       calibrate(motor1s, motor1d, switch1, currentState1, previousState1, calibrate1);
+      if ()
     }
     if (calibrate2) {
       calibrate(motor2s, motor2d, switch2, currentState2, previousState2, calibrate2);
-    }
+    }*/
   } else if (firstTimex2) {
     moveByDistance(1000, notes1[0], motor1s, motor1d);
     moveByDistance(1000, 1, notes2[0], motor2d);
