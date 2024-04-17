@@ -146,13 +146,13 @@ void loop() {
       calibrate(motor2s, motor2d, switch2, currentState2, previousState2, calibrate2);
     }*/
   } else if (firstTimex2) {
-    moveByDistance(1000, notes1[0], motor1s, motor1d);
+ /*   moveByDistance(1000, notes1[0], motor1s, motor1d);
     moveByDistance(1000, 1, notes2[0], motor2d);
     delay(997);
     digitalWrite(motor1d, !digitalRead(motor1d));
     digitalWrite(motor2d, !digitalRead(motor2d));
     analogWrite(motor1s, 0);
-    analogWrite(motor2s, 0);
+    analogWrite(motor2s, 0);*/
     firstTimex2 = false;
 
     //move both motors to start position
@@ -177,8 +177,7 @@ void loop() {
           digitalWrite(sollenoid2, 0);
           delay(50);
         }
-        Serial.print("note: ");
-        Serial.println(notes1[m1i]);
+        Serial.println("note: A");
         firstTime1 = false;
       }
       //going to the next sollenoid
@@ -206,6 +205,8 @@ void loop() {
           digitalWrite(sollenoid4, 0);
           delay(50);
         }
+        Serial.print("note: B");
+        //Serial.println(notes1[m2i]);
         firstTime2 = false;
       }
       if (m2i == (lengthArray2 - 1)) {
