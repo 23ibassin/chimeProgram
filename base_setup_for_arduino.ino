@@ -21,7 +21,7 @@ unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 double power;
 double din1m1 = 93;  //distance in a second for motor 1 in meters
-double din1m2 = 204.5;
+double din1m2 = 250;
 int timepause1 = 0;
 int timepause2 = 0;
 
@@ -132,10 +132,10 @@ void setup() {
   Serial.begin(9600);
   startTime = millis();
   for (int i = 0; i <= lengthArray2 + 1; i++) {
-    timeB2[i] = timeB2[i] * 2;
+    timeB2[i] = timeB2[i]*3;
   }
   for (int i = 0; i <= lengthArray1 + 1; i++) {
-    timeB1[i] = timeB1[i] * 2;
+    timeB1[i] = timeB1[i]*3;
   }
 }
 
@@ -182,63 +182,57 @@ void loop() {
     //motor 1
     if (timeB1[m1i] <= (currentTime - startTime)) {
       // I only want this top part to happen once per thing
-      if (notes1[m1i] == C6 || notes2[m1i] == An6 /*notes with sollenoid 1*/) {
-        if ((timeB2[m1i] + 50) <= (currentTime - startTime)) {
+      if (firstTime1) {
+        if (notes1[m1i] == C6 || notes1[m1i] == An6 /*notes with sollenoid 1*/) {
           digitalWrite(sollenoid1, 1);
-          Serial.print("note1 step:  ");
-          Serial.println(notes1[m1i]);
-        }
-        if ((timeB2[m1i] + 100) <= (currentTime - startTime)) {
+          delay(50);
           digitalWrite(sollenoid1, 0);
-        }
-      } else {
-        if ((timeB2[m1i] + 50) <= (currentTime - startTime)) {
+          delay(50);
+          Serial.println("yay1");
+        } else {
           digitalWrite(sollenoid2, 1);
-          Serial.print("note1 step:  ");
-          Serial.println(notes1[m1i]);
-        }
-        if ((timeB2[m1i] + 100) <= (currentTime - startTime)) {
+          delay(50);
           digitalWrite(sollenoid2, 0);
+          delay(50);
         }
-
-
-
-        //going to the next sollenoid
-        if (m1i == (lengthArray1 - 1)) {
-          analogWrite(motor1s, 0);
-        } else if ((currentTime - startTime) >= (timeB1[m1i] + 300)) {
-          analogWrite(motor1s, 0);
-          firstTime1 = true;
-          /*Serial.print("note1: ");
+        Serial.print("note1 step:  ");
+        Serial.println(notes1[m1i]);
+        firstTime1 = false;
+      }
+      //going to the next sollenoid
+      if (m1i == (lengthArray1 - 1)) {
+        analogWrite(motor1s, 0);
+      } else if ((currentTime - startTime) >= (timeB1[m1i] + 300)) {
+        analogWrite(motor1s, 0);
+        firstTime1 = true;
+        /*Serial.print("note1: ");
         Serial.print(m1i);
         Serial.print(";   distance: ");
         Serial.println((notes1[m1i + 1] - notes1[m1i]));*/
-          m1i++;
-        } else {
-          moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
-        }
+        m1i++;
+      } else {
+        moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
       }
-      //motor 2
-      if (timeB2[m2i] <= (currentTime - startTime)) {
+    }
+    //motor 2
+    if (timeB2[m2i] <= (currentTime - startTime)) {
+      if (firstTime2) {
         if (notes2[m2i] == E6 || notes2[m2i] == Bb6 || notes2[m2i] == F6 /*notes with sollenoid 1*/) {
-          if ((timeB2[m2i] + 50) <= (currentTime - startTime)) {
-            digitalWrite(sollenoid3, 1);
-          }
-          if ((timeB2[m2i] + 100) <= (currentTime - startTime)) {
-            digitalWrite(sollenoid3, 0);
-          }
+          digitalWrite(sollenoid3, 1);
+          delay(50);
+          digitalWrite(sollenoid3, 0);
+          delay(50);
         } else {
-          if ((timeB2[m2i] + 50) <= (currentTime - startTime)) {
-            digitalWrite(sollenoid4, 1);
-          }
-          if ((timeB2[m2i] + 100) <= (currentTime - startTime)) {
-            digitalWrite(sollenoid4, 0);
-          }
+          digitalWrite(sollenoid4, 1);
+          delay(50);
+          digitalWrite(sollenoid4, 0);
+          delay(50);
         }
+        firstTime2 = false;
       }
       if (m2i == (lengthArray2 - 1)) {
         analogWrite(motor2s, 0);
-      } else if ((currentTime - startTime) >= (timeB2[m2i] + 300)) {
+      } else if ((currentTime - startTime) >= (timeB2[m2i] + 350)) {
         analogWrite(motor2s, 0);
         firstTime2 = true;
         Serial.print("note2: ");
