@@ -21,7 +21,7 @@ unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 double power;
 double din1m1 = 93;  //distance in a second for motor 1 in meters
-double din1m2 = 198;
+double din1m2 = 204.5;
 int timepause1 = 0;
 int timepause2 = 0;
 
@@ -132,10 +132,10 @@ void setup() {
   Serial.begin(9600);
   startTime = millis();
   for (int i = 0; i <= lengthArray2 + 1; i++) {
-    timeB2[i] = timeB2[i]*3;
+    timeB2[i] = timeB2[i];
   }
   for (int i = 0; i <= lengthArray1 + 1; i++) {
-    timeB1[i] = timeB1[i]*3;
+    timeB1[i] = timeB1[i];
   }
 }
 
@@ -218,10 +218,12 @@ void loop() {
     if (timeB2[m2i] <= (currentTime - startTime)) {
       if (firstTime2) {
         if (notes2[m2i] == E6 || notes2[m2i] == Bb6 || notes2[m2i] == F6 /*notes with sollenoid 1*/) {
+          if ((timeB2[m2i]+50) <= (currentTime - startTime){
           digitalWrite(sollenoid3, 1);
-          delay(50);
-          digitalWrite(sollenoid3, 0);
-          delay(50);
+          }
+          if ((timeB2[m2i]+50) <= (currentTime - startTime){
+          digitalWrite(sollenoid3, );
+          }
         } else {
           digitalWrite(sollenoid4, 1);
           delay(50);
