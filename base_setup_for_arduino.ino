@@ -19,11 +19,11 @@ bool firstTime1 = true;
 bool firstTime2 = true;
 unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
-int power;
-double din1secm1 = 99;  //distance in a second for motor 1 in meters
-double din1secm2 = 28;
-int timepause1 = 20;
-int timepause2 = 20;
+double power;
+double din1m1 = 122;  //distance in a second for motor 1 in meters
+double din1m2 = 225;
+int timepause1 = 0;
+int timepause2 = 0;
 
 double dPerSec;             //used later for calculating the distance per second
 int previousState1 = true;  // state of switches
@@ -38,7 +38,7 @@ bool firstTimex2 = true;  // first time code is played after callibration
 int note8thP1 = 300;
 // G6,Cs6, An5, An6, C6
 int timeB1[lengthArray1 + 1] = {
-  6000, 18000, 27000, 30000, 33000, 39000, 42000, 45000, /*Cs6*/ 51000, 54000, 57000, 63000, 66000, 69000,
+  600, 1800, 2700, 3000, 3300, 3900, 4200, 4500, /*Cs6*/ 5100, 5400, 5700, 6300, 6600, 6900,
   /*2nd*/ 7500, 7800, 8100, 8700, 9000, /*slow part and 3rd*/ 11100, 11381, 11475, 11663, 11850,
   /*4th*/ 14100, 14475, 14850, 16350, 16538, 16725
 };
@@ -60,7 +60,7 @@ int timeB2[lengthArray2 + 1] = {
 // list of each note's spacinge
 double An5 = 3.401;
 double C6 = 3.402;
-double Cs6 = 12.03;
+double Cs6 = 13.03;
 double D6 = 3.5001;
 double E6 = 13.4005;
 double F6 = 3.5003;
@@ -72,29 +72,39 @@ double Cs7 = 8.4002;
 // List of notes on motor 1 (preferably space from switch) (controls motors 1)
 // G6,Cs6, An5, An6, C6
 double notes1[lengthArray1] = { An5, An5, C6, An5, C6, C6, An5, C6, Cs6, An5, C6, C6, An5, C6,
-                             /*second line*/ Cs6, An5, C6, C6, An6, /*slow part and third line*/ An6, G6, An6, C6,
-                             /*4th*/ G6, An6, G6, /*1/4rest*/ An6, An6, G6 };
+                                /*second line*/ Cs6, An5, C6, C6, An6, /*slow part and third line*/ An6, G6, An6, C6,
+                                /*4th*/ G6, An6, G6, /*1/4rest*/ An6, An6, G6 };
 
 // List of notes on motor 2(preferably space from switch) (controls motors 2)
 //D6, Cs7, F6, Bb6, E6
 
 double notes2[lengthArray2] = { F6, D6, D6, F6, D6, D6, F6, F6, E6, E6,
-                             /*second line*/ E6, E6, /*slow part*/ D6, E6, F6, /*third line*/ D6, E6, F6, E6,
-                             /*4th*/ F6, /*1/4rest*/ F6, F6, F6, F6 };
+                                /*second line*/ E6, E6, /*slow part*/ D6, E6, F6, /*third line*/ D6, E6, F6, E6,
+                                /*4th*/ F6, /*1/4rest*/ F6, F6, F6, F6 };
 // Function to move solenoids based on a distance (controls motors)
-void moveByDistance(int timeB, int distance, int motorspeed, int motordirec) {
+void moveByDistance(int timeB, double distance, int motorspeed, int motordirec) {
   //I need to make it slow down as it gets closer to the distance
   /* i need to get to a spot within a time frame as it slows down based on the distance
   it needs to go*/
-  timeB = timeB - 20;
-  dPerSec = abs(distance) / (timeB * 0.001);
+  /*analogWrite(11, 225);
+  delay(150);
+  digitalWrite(11,0);
+  delay(1000000000000000);*/
+  
   if (motorspeed == motor1s) {
     //problem with only using if statements
-    power = (250 * dPerSec / din1secm1);
+    power = map (abs(distance), 0, abs(Cs6-C6), 0, din1m1);
+    if (power != 0) {
+      Serial.print("motor 1 moving with power: ");
+      Serial.println(power);
+    }
   } else {
-    power = (250 * dPerSec / din1secm2);
+    power = map (abs(distance), 0, E6-D6, 0, din1m2);
+    if (power != 0) {
+      Serial.print("motor 2 moving with power: ");
+      Serial.println(power);
+    }
   }
-
   analogWrite(motorspeed, power);
   digitalWrite(motordirec, distance < 0);
 }
@@ -122,6 +132,9 @@ void setup() {
   for (int i = 6; i <= 13; i++) { pinMode(i, OUTPUT); }
   Serial.begin(9600);
   startTime = millis();
+  for (int i = 0; i <= lengthArray2 + 1; i++) {
+    timeB2[i] = timeB2[i] * 3;
+  }
 }
 
 
@@ -187,13 +200,13 @@ void loop() {
       //going to the next sollenoid
       if (m1i == (lengthArray1 - 1)) {
         analogWrite(motor1s, 0);
-      } else if ((currentTime - startTime) >= (timeB1[m1i + 1] - timepause1)) {
+      } else if ((currentTime - startTime) >= (timeB1[m1i]+ 300)) {
         analogWrite(motor1s, 0);
         firstTime1 = true;
-        Serial.print("note1: ");
+        /*Serial.print("note1: ");
         Serial.print(m1i);
         Serial.print(";   distance: ");
-        Serial.println((notes1[m1i + 1] - notes1[m1i]));
+        Serial.println((notes1[m1i + 1] - notes1[m1i]));*/
         m1i++;
       } else {
         moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
@@ -206,6 +219,7 @@ void loop() {
           digitalWrite(sollenoid3, 1);
           delay(50);
           digitalWrite(sollenoid3, 0);
+          delay(50);
         } else {
           digitalWrite(sollenoid4, 1);
           delay(50);
@@ -216,18 +230,21 @@ void loop() {
         //Serial.println(notes1[m2i]);
         firstTime2 = false;
       }
+      Serial.print("time:    ");
+      Serial.println(currentTime-startTime);
       if (m2i == (lengthArray2 - 1)) {
         analogWrite(motor2s, 0);
-      } else if ((currentTime - startTime) >= (timeB2[m2i + 1] - timepause2)) {
+      } else if ((currentTime - startTime) >= (timeB2[m2i]+ 300)) {
         analogWrite(motor2s, 0);
         firstTime2 = true;
-        /*Serial.print("note2: ");
+        Serial.print("note2: ");
         Serial.print(m2i);
         Serial.print(";   ");
         Serial.println((notes2[m2i + 1] - notes2[m2i]));
-        */m2i++;
+        m2i++;
       } else {
-        moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i + 1] - notes2[m2i]), motor2s, motor2d);
+        moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i+1] - notes2[m2i]), motor2s, motor2d);
+        
       }
     }
     // Check for solenoid moving off path when driven by motor
