@@ -132,10 +132,10 @@ void setup() {
   Serial.begin(9600);
   startTime = millis();
   for (int i = 0; i <= lengthArray2 + 1; i++) {
-    timeB2[i] = timeB2[i] * 2;
+    timeB2[i] = timeB2[i];
   }
   for (int i = 0; i <= lengthArray1 + 1; i++) {
-    timeB1[i] = timeB1[i] * 2;
+    timeB1[i] = timeB1[i];
   }
 }
 
@@ -208,7 +208,6 @@ void loop() {
           analogWrite(motor1s, 0);
         } else if ((currentTime - startTime) >= (timeB1[m1i] + 300)) {
           analogWrite(motor1s, 0);
-          firstTime1 = true;
           /*Serial.print("note1: ");
         Serial.print(m1i);
         Serial.print(";   distance: ");
@@ -216,6 +215,7 @@ void loop() {
           m1i++;
         } else {
           moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
+          Serial.println("working");
         }
       }
       //motor 2
@@ -240,14 +240,14 @@ void loop() {
         analogWrite(motor2s, 0);
       } else if ((currentTime - startTime) >= (timeB2[m2i] + 300)) {
         analogWrite(motor2s, 0);
-        firstTime2 = true;
         Serial.print("note2: ");
         Serial.print(m2i);
         Serial.print(";   ");
         Serial.println((notes2[m2i + 1] - notes2[m2i]));
         m2i++;
       } else {
-        moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i + 1] - notes2[m2i]), motor2s, motor2d);
+        //moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i + 1] - notes2[m2i]), motor2s, motor2d);'\
+        
       }
     }
     // Check for solenoid moving off path when driven by motor
