@@ -20,8 +20,8 @@ bool firstTime2 = true;
 unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 double power;
-double din1m1 = 122;  //distance in a second for motor 1 in meters
-double din1m2 = 225;
+double din1m1 = 92;  //distance in a second for motor 1 in meters
+double din1m2 = 185;
 int timepause1 = 0;
 int timepause2 = 0;
 
@@ -90,7 +90,6 @@ void moveByDistance(int timeB, double distance, int motorspeed, int motordirec) 
   delay(150);
   digitalWrite(11,0);
   delay(1000000000000000);*/
-  
   if (motorspeed == motor1s) {
     //problem with only using if statements
     power = map (abs(distance), 0, abs(Cs6-C6), 0, din1m1);
@@ -133,7 +132,7 @@ void setup() {
   Serial.begin(9600);
   startTime = millis();
   for (int i = 0; i <= lengthArray2 + 1; i++) {
-    timeB2[i] = timeB2[i] * 3;
+    timeB2[i] = timeB2[i];
   }
 }
 
@@ -193,7 +192,7 @@ void loop() {
           digitalWrite(sollenoid2, 0);
           delay(50);
         }
-        Serial.print("note:  ");
+        Serial.print("note1 step:  ");
         Serial.println(notes1[m1i]);
         firstTime1 = false;
       }
@@ -226,12 +225,8 @@ void loop() {
           digitalWrite(sollenoid4, 0);
           delay(50);
         }
-        //Serial.print("note: B");
-        //Serial.println(notes1[m2i]);
         firstTime2 = false;
       }
-      Serial.print("time:    ");
-      Serial.println(currentTime-startTime);
       if (m2i == (lengthArray2 - 1)) {
         analogWrite(motor2s, 0);
       } else if ((currentTime - startTime) >= (timeB2[m2i]+ 300)) {
