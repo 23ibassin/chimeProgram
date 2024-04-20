@@ -21,7 +21,7 @@ unsigned int m1i /*motor 1 list iteration point*/ = 0;
 unsigned int m2i /*motor 2 list iteration point*/ = 0;
 double power;
 double din1m1 = 93;  //distance in a second for motor 1 in meters
-double din1m2 = 250;
+double din1m2 = 70;
 int timepause1 = 0;
 int timepause2 = 0;
 
@@ -154,7 +154,7 @@ void loop() {
       Serial.println("firstTime");
     }*/
     firstTime = false;
-    digitalWrite(motor1d, 1);
+    //digitalWrite(motor1d, 1);
     /*} else if (calibrate1 || calibrate2) {
     if (calibrate1) {
       calibrate(motor1s, motor1d, switch1, currentState1, previousState1, calibrate1);
@@ -200,7 +200,7 @@ void loop() {
         if ((timeB1[m1i] + 100) >= (currentTime - startTime)) {
           digitalWrite(sollenoid2, 0);
         }
-
+currentTime = millis();
 
 
         //going to the next sollenoid
@@ -208,20 +208,22 @@ void loop() {
           analogWrite(motor1s, 0);
         } else if ((currentTime - startTime) >= (timeB1[m1i] + 300)) {
           analogWrite(motor1s, 0);
-          /*Serial.print("note1: ");
-        Serial.print(m1i);
-        Serial.print(";   distance: ");
-        Serial.println((notes1[m1i + 1] - notes1[m1i]));*/
+          Serial.print("note1: ");
+          Serial.print(m1i);
+          Serial.print(";   distance: ");
+          Serial.println((notes1[m1i + 1] - notes1[m1i]));
           m1i++;
         } else {
           moveByDistance((timeB1[m1i + 1] - timeB1[m1i]), (notes1[m1i + 1] - notes1[m1i]), motor1s, motor1d);
-          Serial.println("working");
+          Serial.println(currentTime);
+          currentTime = millis();
         }
       }
+      currentTime = millis();
       //motor 2
       if (timeB2[m2i] <= (currentTime - startTime)) {
         if (notes2[m2i] == E6 || notes2[m2i] == Bb6 || notes2[m2i] == F6 /*notes with sollenoid 1*/) {
-          if ((timeB2[m2i] +50) >= (currentTime - startTime)) {
+          if ((timeB2[m2i] + 50) >= (currentTime - startTime)) {
             digitalWrite(sollenoid3, 1);
           }
           if ((timeB2[m2i] + 100) >= (currentTime - startTime)) {
@@ -237,6 +239,7 @@ void loop() {
         }
       }
       if (m2i == (lengthArray2 - 1)) {
+        currentTime = millis();
         analogWrite(motor2s, 0);
       } else if ((currentTime - startTime) >= (timeB2[m2i] + 300)) {
         analogWrite(motor2s, 0);
@@ -244,10 +247,10 @@ void loop() {
         Serial.print(m2i);
         Serial.print(";   ");
         Serial.println((notes2[m2i + 1] - notes2[m2i]));
+        Serial.println("stopping");
         m2i++;
-      } else {
-        //moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i + 1] - notes2[m2i]), motor2s, motor2d);'\
-        
+      }else{
+        moveByDistance((timeB2[m2i + 1] - timeB2[m2i]), (notes2[m2i + 1] - notes2[m2i]), motor2s, motor2d);
       }
     }
     // Check for solenoid moving off path when driven by motor
