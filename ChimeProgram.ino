@@ -123,7 +123,7 @@ void loop() {
       digitalWrite(solenoid2, LOW);
 
     } else {
-      digitalWrite(solenoid2, HIGH);
+      digitalWrite(solenoid2, HIGH); //E6
       delay(timing[0]);
       digitalWrite(solenoid2, LOW);
     }
@@ -153,8 +153,8 @@ void loop() {
   digitalWrite(motor2s, motorSpd2);
   digitalWrite(motor2d, 1);
 
-  digitalWrite(solenoid4, HIGH);  //C6
-  digitalWrite(solenoid4, LOW);
+   //A6
+  
 
   delay(motorTimeJump2R +1);
   digitalWrite(motor2s, 0);
@@ -164,7 +164,7 @@ void loop() {
   digitalWrite(solenoid4, HIGH); //A6
   delay(timing[1] - motorTimeJump2R+8);
   digitalWrite(solenoid4, LOW);
-
+  
   Serial.println("measure 5");    //measure 5
   digitalWrite(solenoid1, HIGH);  //D6
   delay(timing[0]);
@@ -213,6 +213,7 @@ void loop() {
   delay(motorTimeJump2R + 9);
   digitalWrite(motor2s, 0);
 
+
   Serial.println("measure 9"); //measure 9
   digitalWrite(solenoid1, HIGH);  //D6
   delay(timing[0]);
@@ -251,38 +252,29 @@ void loop() {
   digitalWrite(solenoid3, HIGH);  //G6
   delay(timing[3]);
   digitalWrite(solenoid3, LOW);
-  digitalWrite(solenoid2, HIGH);  //F6
+  digitalWrite(solenoid1, HIGH);  //F6
   delay(timing[3]);
-  digitalWrite(solenoid2, LOW);
+  digitalWrite(solenoid1, LOW);
 
+  delay(9999);
   Serial.println("measure 11");   //measure 11
   digitalWrite(solenoid3, HIGH);  //G6
-  delay(timing[3] - motorTime1a + 8 - 20);
-  digitalWrite(solenoid3, LOW);
-  //going to C6
-  digitalWrite(motor1d, 1);
-  digitalWrite(motor1s, 1);
-  delay(motorTime1a + 8);
-  digitalWrite(motor1s, 0);
-  delay(20);
-  digitalWrite(solenoid4, HIGH);  //C6
-  delay(timing[3] - motorTime1a + 1 - 20);
+  delay(timing[3]);
+  digitalWrite(solenoid4, HIGH);  //A6
+  delay(timing[3]);
   digitalWrite(solenoid4, LOW);
 
+  delay(9999);
   Serial.println("measure 12");  //measure 12
   //going to G6
-  digitalWrite(motor1d, 0);
-  digitalWrite(motor1s, 1);
-  delay(motorTime1a -5);
-  digitalWrite(motor1s, 0);
-  delay(20);
-  digitalWrite(solenoid3, HIGH);  //C6
+    digitalWrite(solenoid3, HIGH);  //G6
   delay(timing[3]);
   digitalWrite(solenoid3, LOW);
   digitalWrite(solenoid1, HIGH);  //F6
   delay(timing[3]);
   digitalWrite(solenoid1, LOW);
 
+  delay(9999);
   Serial.println("measure 13");  //measure 13
   delay(timing[1]);              // quarter rest
   for (int i = 0; i < 3; i++) {
