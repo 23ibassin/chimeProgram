@@ -64,7 +64,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  for (int i = 0; i <= 1; i++) {  //1 for high, 0 is low, measure 1
+  for (int i = 0; i <= 0; i++) {  //1 for high, 0 is low, measure 1
     Serial.println("measure 1");
     digitalWrite(solenoid2, HIGH);  //F6
     delay(timing[0]);
@@ -184,16 +184,16 @@ void loop() {
   delay(timing[5]);
   digitalWrite(solenoid1, LOW);
 
-  Serial.println("measure 7");
-  digitalWrite(solenoid4, HIGH);  //measure 7
+  Serial.println("measure 7"); //measure 7
+  digitalWrite(solenoid4, HIGH);  //A6
   delay(timing[2]);
   digitalWrite(solenoid4, LOW);
 
-  digitalWrite(solenoid3, HIGH);
+  digitalWrite(solenoid3, HIGH); // G6
   delay(timing[2]);
   digitalWrite(solenoid3, LOW);
 
-  digitalWrite(solenoid4, HIGH);
+  digitalWrite(solenoid4, HIGH); //A6
   delay(timing[1]);
   digitalWrite(solenoid4, LOW);
 
@@ -202,8 +202,8 @@ void loop() {
   delay(motorTime1a);
   digitalWrite(motor1s, 0);
 
-  Serial.println("measure 8");
-  digitalWrite(solenoid3, HIGH);  //measure 8
+  Serial.println("measure 8"); //measure 8
+  digitalWrite(solenoid3, HIGH);  //C6
   delay(timing[5]);
   digitalWrite(solenoid3, LOW);
 
@@ -212,8 +212,8 @@ void loop() {
   delay(motorTimeJump2R + 9);
   digitalWrite(motor2s, 0);
 
-  Serial.println("measure 9");
-  digitalWrite(solenoid1, HIGH);  //measure 9
+  Serial.println("measure 9"); //measure 9
+  digitalWrite(solenoid1, HIGH);  //D6
   delay(timing[0]);
   digitalWrite(solenoid1, LOW);
 
@@ -223,21 +223,22 @@ void loop() {
   digitalWrite(motor2s, 0);
   delay(timing[4] - motorTimeJump2-2 - timing[0]);
 
-  digitalWrite(solenoid2, HIGH);
+  digitalWrite(solenoid2, HIGH); // E6
   delay(timing[1]);
   digitalWrite(solenoid2, LOW);
 
   Serial.println("measure 10");  //measure 10
-  digitalWrite(solenoid1, HIGH);
+  digitalWrite(solenoid1, HIGH); //F6
   delay(timing[3]);
   digitalWrite(solenoid1, LOW);
-  digitalWrite(solenoid2, HIGH);
+  digitalWrite(solenoid2, HIGH); //E6
   delay(timing[3]);
   digitalWrite(solenoid2, LOW);
   digitalWrite(motor1d, 1);
   digitalWrite(motor1s, motorSpd1);
   delay(motorTime1b);
   digitalWrite(motor1s, 0);
+
 
   digitalWrite(solenoid3, HIGH);  //G6
   delay(timing[3]);
