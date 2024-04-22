@@ -64,7 +64,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  for (int i = 0; i <= 0; i++) {  //1 for high, 0 is low, measure 1
+  for (int i = 0; i <= 1; i++) {  //1 for high, 0 is low, measure 1
     Serial.println("measure 1");
     digitalWrite(solenoid2, HIGH);  //F6
     delay(timing[0]);
@@ -156,13 +156,14 @@ void loop() {
   digitalWrite(solenoid4, HIGH);  //C6
   digitalWrite(solenoid4, LOW);
 
-  delay(motorTimeJump2R);
+  delay(motorTimeJump2R +1);
   digitalWrite(motor2s, 0);
 
   //good place to use switch?
   //delay(999999999);
-
+  digitalWrite(solenoid4, HIGH); //A6
   delay(timing[1] - motorTimeJump2R+8);
+  digitalWrite(solenoid4, LOW);
 
   Serial.println("measure 5");    //measure 5
   digitalWrite(solenoid1, HIGH);  //D6
@@ -171,9 +172,9 @@ void loop() {
 
   digitalWrite(motor2s, motorSpd2);
   digitalWrite(motor2d, 0);
-  delay(motorTimeJump2-6);
+  delay(motorTimeJump2-4);
   digitalWrite(motor2s, 0);
-  delay(timing[4] - motorTimeJump2-6 - timing[0]);
+  delay(timing[4] - motorTimeJump2-4 - timing[0]);
 
   digitalWrite(solenoid2, HIGH);  //E6
   delay(timing[1]);
@@ -199,7 +200,7 @@ void loop() {
 
   digitalWrite(motor1s, motorSpd1);
   digitalWrite(motor1d, 1);
-  delay(motorTime1a);
+  delay(motorTime1a +2);
   digitalWrite(motor1s, 0);
 
   Serial.println("measure 8"); //measure 8
@@ -237,7 +238,7 @@ void loop() {
  //changing
   digitalWrite(motor1d, 0);
   digitalWrite(motor1s, motorSpd1);
-  delay(motorTime1b*0.5);
+  delay(motorTime1b*0.7);
   digitalWrite(motor1s, 0);
 
 
@@ -250,7 +251,7 @@ void loop() {
   digitalWrite(solenoid3, HIGH);  //G6
   delay(timing[3]);
   digitalWrite(solenoid3, LOW);
-  digitalWrite(solenoid2, HIGH);  //E6
+  digitalWrite(solenoid2, HIGH);  //F6
   delay(timing[3]);
   digitalWrite(solenoid2, LOW);
 
