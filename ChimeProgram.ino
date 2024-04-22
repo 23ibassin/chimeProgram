@@ -137,8 +137,8 @@ void loop() {
     delay(timing[0]);
     digitalWrite(solenoid3, LOW);
   }
-  Serial.println("measure 4 2nd half");
-  digitalWrite(solenoid2, HIGH);  //measure 4 2nd half
+  Serial.println("measure 4 2nd half"); //measure 4 2nd half
+  digitalWrite(solenoid2, HIGH);  
   delay(timing[0]);
   digitalWrite(solenoid2, LOW);
   digitalWrite(solenoid3, HIGH);
@@ -197,15 +197,15 @@ void loop() {
   delay(timing[1]);
   digitalWrite(solenoid4, LOW);
 
-  digitalWrite(motor1s, motorSpd1);
-  digitalWrite(motor1d, 0);
+  /*digitalWrite(motor1s, motorSpd1);
+  digitalWrite(motor1d, 1);
   delay(motorTime1a);
   digitalWrite(motor1s, 0);
-
+*/
   Serial.println("measure 8"); //measure 8
-  digitalWrite(solenoid3, HIGH);  //C6
+  digitalWrite(solenoid4, HIGH);  //C6
   delay(timing[5]);
-  digitalWrite(solenoid3, LOW);
+  digitalWrite(solenoid4, LOW);
 
   digitalWrite(motor2s, motorSpd2);
   digitalWrite(motor2d, 1);
