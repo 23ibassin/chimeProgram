@@ -130,10 +130,10 @@ void loop() {
     digitalWrite(solenoid3, HIGH); // Cs6
     delay(timing[0]);
     digitalWrite(solenoid3, LOW);
-    digitalWrite(solenoid4, HIGH);
+    digitalWrite(solenoid4, HIGH); // A5
     delay(timing[0]);
     digitalWrite(solenoid4, LOW);
-    digitalWrite(solenoid3, HIGH);
+    digitalWrite(solenoid3, HIGH); // Cs6
     delay(timing[0]);
     digitalWrite(solenoid3, LOW);
   }
