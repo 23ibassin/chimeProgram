@@ -138,10 +138,10 @@ void loop() {
     digitalWrite(solenoid3, LOW);
   }
   Serial.println("measure 4 2nd half"); //measure 4 2nd half
-  digitalWrite(solenoid2, HIGH);  
+  digitalWrite(solenoid2, HIGH);  //E6
   delay(timing[0]);
   digitalWrite(solenoid2, LOW);
-  digitalWrite(solenoid3, HIGH);
+  digitalWrite(solenoid3, HIGH); //Cs6
   delay(timing[0]);
   digitalWrite(solenoid3, LOW);
   // not accurate
