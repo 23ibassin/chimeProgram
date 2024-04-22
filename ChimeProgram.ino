@@ -13,8 +13,8 @@ const int motorTime1b = 80;  //A5-C#6 to A6-G6
 const int motorTime1ab = 125;    //C6-A5 to A5-C#6
 
 const int motorTime2a = 0;        //E6-F6 to Bb6-C#7
-const int motorTimeJump2 = 237;   //F6-D6 to E6-F6
-const int motorTimeJump2R = 282;  //E6-F6 to F6-D6
+const int motorTimeJump2 = 242;   //F6-D6 to E6-F6
+const int motorTimeJump2R = 290;  //E6-F6 to F6-D6
 
 const int solenoid1 = 6;
 const int solenoid2 = 7;
@@ -147,25 +147,23 @@ void loop() {
   // not accurate
   digitalWrite(motor1s, motorSpd1);
   digitalWrite(motor1d, 1);
-  delay(motorTime1b  + 1);
-  digitalWrite(motor1s, 0);
+  delay(motorTime1b  + 1); // Change if motor over/undershoots A6
+  digitalWrite(motor1s, 0); // Stops at A6
 
-  digitalWrite(motor2s, motorSpd2);
-  digitalWrite(motor2d, 1);
-
-   //A6
-  
-
-  delay(motorTimeJump2R +1);
-  digitalWrite(motor2s, 0);
-
-  //good place to use switch?
-  //delay(999999999);
   digitalWrite(solenoid4, HIGH); //A6
-  delay(timing[1] - motorTimeJump2R+8);
+  delay(timing[0]);
   digitalWrite(solenoid4, LOW);
   
-  Serial.println("measure 5");    //measure 5
+
+// Measure 5
+  Serial.println("measure 5");    // Outputs "measure 5" to serial output
+
+  digitalWrite(motor2s, motorSpd2); // Moves belt 2 to D6-F6
+  digitalWrite(motor2d, 1);
+
+  delay(motorTimeJump2R + 0);
+  digitalWrite(motor2s, 0);
+
   digitalWrite(solenoid1, HIGH);  //D6
   delay(timing[0]);
   digitalWrite(solenoid1, LOW);
@@ -180,12 +178,14 @@ void loop() {
   delay(timing[1]);
   digitalWrite(solenoid2, LOW);
 
+// Measure 6
   Serial.println("measure 6");
-  digitalWrite(solenoid1, HIGH);  //measure 6
+  digitalWrite(solenoid1, HIGH);  //F6
   delay(timing[5]);
   digitalWrite(solenoid1, LOW);
 
-  Serial.println("measure 7"); //measure 7
+//measure 7
+  Serial.println("measure 7"); 
   digitalWrite(solenoid4, HIGH);  //A6
   delay(timing[2]);
   digitalWrite(solenoid4, LOW);
@@ -198,12 +198,13 @@ void loop() {
   delay(timing[1]);
   digitalWrite(solenoid4, LOW);
 
-  digitalWrite(motor1s, motorSpd1);
+//measure 8
+  digitalWrite(motor1s, motorSpd1); //Moves belt 1 to C6
   digitalWrite(motor1d, 1);
-  delay(motorTime1a +2);
+  delay(motorTime1a +9);
   digitalWrite(motor1s, 0);
 
-  Serial.println("measure 8"); //measure 8
+  Serial.println("measure 8"); 
   digitalWrite(solenoid4, HIGH);  //C6
   delay(timing[5]);
   digitalWrite(solenoid4, LOW);
@@ -213,8 +214,8 @@ void loop() {
   delay(motorTimeJump2R + 9);
   digitalWrite(motor2s, 0);
 
-
-  Serial.println("measure 9"); //measure 9
+//measure 9
+  Serial.println("measure 9"); 
   digitalWrite(solenoid1, HIGH);  //D6
   delay(timing[0]);
   digitalWrite(solenoid1, LOW);
@@ -229,7 +230,8 @@ void loop() {
   delay(timing[1]);
   digitalWrite(solenoid2, LOW);
 
-  Serial.println("measure 10");  //measure 10
+//measure 10
+  Serial.println("measure 10");  
   digitalWrite(solenoid1, HIGH); //F6
   delay(timing[3]);
   digitalWrite(solenoid1, LOW);
@@ -239,16 +241,21 @@ void loop() {
  //changing
   digitalWrite(motor1d, 0);
   digitalWrite(motor1s, motorSpd1);
-  delay(motorTime1b*0.7);
+  delay(motorTime1b*0.9);
   digitalWrite(motor1s, 0);
 
 
+//measure 11
+  Serial.println("measure 11");   
   digitalWrite(solenoid3, HIGH);  //G6
   delay(timing[3]);
   digitalWrite(solenoid3, LOW);
   digitalWrite(solenoid4, HIGH);  //A6
   delay(timing[3]);
   digitalWrite(solenoid4, LOW);
+  
+//measure 12
+  Serial.println("measure 12");  
   digitalWrite(solenoid3, HIGH);  //G6
   delay(timing[3]);
   digitalWrite(solenoid3, LOW);
@@ -256,61 +263,47 @@ void loop() {
   delay(timing[3]);
   digitalWrite(solenoid1, LOW);
 
-  delay(9999);
-  Serial.println("measure 11");   //measure 11
-  digitalWrite(solenoid3, HIGH);  //G6
+//measure 13
+  Serial.println("measure 13");  
+  delay(timing[3]);              // quarter rest
+  digitalWrite(solenoid1, HIGH);  //F6
   delay(timing[3]);
-  digitalWrite(solenoid4, HIGH);  //A6
+  digitalWrite(solenoid1, LOW);
+  digitalWrite(solenoid1, HIGH);  //F6
   delay(timing[3]);
-  digitalWrite(solenoid4, LOW);
-
-  delay(9999);
-  Serial.println("measure 12");  //measure 12
-  //going to G6
-    digitalWrite(solenoid3, HIGH);  //G6
-  delay(timing[3]);
-  digitalWrite(solenoid3, LOW);
+  digitalWrite(solenoid1, LOW);
   digitalWrite(solenoid1, HIGH);  //F6
   delay(timing[3]);
   digitalWrite(solenoid1, LOW);
 
-  delay(9999);
-  Serial.println("measure 13");  //measure 13
-  delay(timing[1]);              // quarter rest
-  for (int i = 0; i < 3; i++) {
-    //Serial.println(i);
-    digitalWrite(solenoid1, HIGH);  //F6
-    delay(timing[1] - 35);
-    digitalWrite(solenoid1, LOW);
-    delay(35);
-  }
 
-  Serial.println("measure 14");   //measure 14
+//measure 14
+  Serial.println("measure 14");   
   digitalWrite(solenoid4, HIGH);  //A6
-  delay(timing[1] - 35);
+  delay(timing[3]);
   digitalWrite(solenoid4, LOW);
-  delay(35);
+  delay(timing[3]);
   digitalWrite(solenoid4, HIGH);  //A6
-  delay(timing[1]);
+  delay(timing[3]);
   digitalWrite(solenoid4, LOW);
   digitalWrite(solenoid3, HIGH);  //G6
-  delay(timing[1]);
+  delay(timing[3]);
   digitalWrite(solenoid3, LOW);
   digitalWrite(solenoid1, HIGH);  //F6
-  delay(timing[1]);
+  delay(timing[3]);
   digitalWrite(solenoid1, LOW);
 
   Serial.println("measure 15");   //measure 15
   digitalWrite(solenoid4, HIGH);  //A6
-  delay(timing[1] - 35);
+  delay(timing[3]);
   digitalWrite(solenoid4, LOW);
-  delay(35);
+  delay(timing[3]);
   digitalWrite(solenoid4, HIGH);  //A6
-  delay(timing[1] - 35);
+  delay(timing[3]);
   digitalWrite(solenoid4, LOW);
-  delay(35);
+  delay(timing[3]);
   digitalWrite(solenoid4, HIGH);  //A6
-  delay(timing[1]);
+  delay(timing[3]);
   digitalWrite(solenoid4, LOW);
 
   Serial.println("measure 16");   //measure 16
