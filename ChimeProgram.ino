@@ -123,7 +123,7 @@ void loop() {
       digitalWrite(solenoid2, LOW);
 
     } else {
-      digitalWrite(solenoid2, HIGH);
+      digitalWrite(solenoid2, HIGH); //E6
       delay(timing[0]);
       digitalWrite(solenoid2, LOW);
     }
@@ -153,8 +153,8 @@ void loop() {
   digitalWrite(motor2s, motorSpd2);
   digitalWrite(motor2d, 1);
 
-  digitalWrite(solenoid4, HIGH);  //C6
-  digitalWrite(solenoid4, LOW);
+   //A6
+  
 
   delay(motorTimeJump2R +1);
   digitalWrite(motor2s, 0);
@@ -164,7 +164,7 @@ void loop() {
   digitalWrite(solenoid4, HIGH); //A6
   delay(timing[1] - motorTimeJump2R+8);
   digitalWrite(solenoid4, LOW);
-
+  
   Serial.println("measure 5");    //measure 5
   digitalWrite(solenoid1, HIGH);  //D6
   delay(timing[0]);
